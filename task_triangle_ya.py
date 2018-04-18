@@ -1,21 +1,17 @@
-print("точка A [x y]")
-Ax = int(input())
-Ay = int(input())
-print(Ax,Ay)
-print("Точка B [x y]")
-Bx = int(input())
-By = int(input())
-print(Bx,By)
-print('Точка C [x y]')
-Cx = int(input())
-Cy = int(input())
-print(Cx,Cy)
-AB = ((Ax - Bx)**2 + (Ay - By)**2)**0.5
-BC = ((Bx - Cx)**2 + (By - Cy)**2)**0.5
-AC = ((Ax - Cx)**2 + (Ay - Cy)**2)**0.5
-print(AB, BC, AC)
+ax = int(input())
+ay = int(input())
+bx = int(input())
+by = int(input())
+cx = int(input())
+cy = int(input())
+x1 = bx - ax
+y1 = by - ay
+x2 = cx - bx
+y2 = cy - by
+x3 = cx - ax
+y3 = cy - ay
 for i in range(1):
-    if AB == (BC**2 +AC**2)**0.5 or BC == (AC**2 + AB**2)**0.5 or AC == (AB**2 + BC**2)**0.5:
+    if x1 * x2 + y1 * y2 == 0 or x2 * x3 + y2 * y3 == 0 or x1 * x3 + y1 * y3 == 0:
         print('yes')
     else:
         print('no')
