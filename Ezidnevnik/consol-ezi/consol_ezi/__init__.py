@@ -49,8 +49,8 @@ def action_add():
     task_status = 'В процессе'
     with get_connection() as conn:
         name = storage.add_name(conn, task_name, task_description, task_status)
+    action_find_all()
     main()
-
 
 
 def action_find_all():
@@ -58,16 +58,18 @@ def action_find_all():
     with get_connection() as conn:
         tasks = storage.find_all(conn)
 
-    # template = '{task[id]} - {task[task_name]} - {task[task_description]} - {task[task_status]} - {task[created]}'
-    #
-    # print(template.format(task=tasks))
+        template = '{task[id]}/ {task[task_name]} => {task[task_description]} | {task[task_status]} | {task[created]} |'
+        for task in tasks:
+            print(template.format(task=task))
     main()
+
 
 def action_del():
     id = input('\nВведите id задачи для удаления: ')
     with get_connection() as conn:
         delete = storage.delete_task(conn, id)
-        # action_find_all()
+    action_find_all()
+    main()
 
 
 def action_status_end():
@@ -75,6 +77,8 @@ def action_status_end():
     # task_status = 'Завершена'
     with get_connection() as conn:
         status = storage.change_status_end(conn, id)
+    action_find_all()
+    main()
 
 
 def action_status_begin():
@@ -82,6 +86,8 @@ def action_status_begin():
     # task_status = 'Завершена'
     with get_connection() as conn:
         status = storage.change_status_begin(conn, id)
+    action_find_all()
+    main()
 
 
 def action_change():
@@ -89,7 +95,9 @@ def action_change():
     task_name = input('\nВведите имя задачи: ')
     task_description = input('\nВведите текст задачи: ')
     with get_connection() as conn:
-        task = storage.change_task(conn, id, task_name, task_description)
+        task = storage.change_task(conn, task_name, task_description, id)
+    action_find_all()
+    main()
 
 
 def action_exit():
