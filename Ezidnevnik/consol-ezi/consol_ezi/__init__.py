@@ -54,7 +54,7 @@ def action_add():
 
 
 def action_find_all():
-    """Вывести все URL-адреса"""
+    """Вывести все задачи"""
     with get_connection() as conn:
         tasks = storage.find_all(conn)
 
@@ -65,6 +65,7 @@ def action_find_all():
 
 
 def action_del():
+    """Удалить задачу"""
     id = input('\nВведите id задачи для удаления: ')
     with get_connection() as conn:
         delete = storage.delete_task(conn, id)
@@ -73,6 +74,7 @@ def action_del():
 
 
 def action_status_end():
+    """Изменить статус на завершена"""
     id = input('\nВведите id задачи: ')
     # task_status = 'Завершена'
     with get_connection() as conn:
@@ -82,6 +84,7 @@ def action_status_end():
 
 
 def action_status_begin():
+    """Изменить статус на в процессе"""
     id = input('\nВведите id задачи: ')
     # task_status = 'Завершена'
     with get_connection() as conn:
@@ -91,6 +94,7 @@ def action_status_begin():
 
 
 def action_change():
+    """Отредактировать задачу"""
     id = input('\nВведите id задачи: ')
     task_name = input('\nВведите имя задачи: ')
     task_description = input('\nВведите текст задачи: ')
