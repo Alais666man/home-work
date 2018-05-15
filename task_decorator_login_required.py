@@ -32,5 +32,5 @@ def login_required(username, password):
         return wrapper
 
 
-login_required()
+
 
