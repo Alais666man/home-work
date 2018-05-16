@@ -11,7 +11,6 @@ def make_token(username, password):
 def login_required(func):
     @lru_cache(maxsize=None)
     def wrapped(*args, **kwargs):
-        result = func(*args, **kwargs)
         with open('token.txt') as f:
             token = f.read()
         count = 0
@@ -20,9 +19,9 @@ def login_required(func):
             password = input()
             user = hashlib.md5((username + password).encode()).hexdigest()
             if user != token:
-                print('Функция защищена паролем')
                 count += 1
             else:
+                result = func(*args, **kwargs)
                 return result
     return wrapped
 
