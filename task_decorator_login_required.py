@@ -3,9 +3,8 @@ import hashlib
 
 
 def make_token(username, password):
-    with open('token.txt', 'w') as f:
         s = username + password
-        return f.write(hashlib.md5(s.encode()).hexdigest())
+        return hashlib.md5(s.encode()).hexdigest()
 
 
 def login_required(func):
@@ -15,9 +14,7 @@ def login_required(func):
             token = f.read()
         count = 0
         while count < 3:
-            username = input()
-            password = input()
-            user = hashlib.md5((username + password).encode()).hexdigest()
+            user = make_token(input(), input())
             if user != token:
                 count += 1
             else:
