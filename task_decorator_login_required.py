@@ -25,10 +25,6 @@ def login_required(func):
 
 
 
-# def summa(a, b):
-#     return print(a + b)
-#
-# print(summa(2, 1))
 
 
 
