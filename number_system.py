@@ -1,25 +1,25 @@
-def dec2anyss(number, osn_ss):
-    alf_hex = 'abcdef'
-    result = ''
-    while number >= 1:
-        if number % osn_ss < 10:
-            result = result + str(number % osn_ss)
-        else:
-            result = result + alf_hex[(number % osn_ss) ]
-        number // osn_ss
-        return str(result[::-1])
-
-
 def anyss2dec(number, osn_ss):
-    number = str(number)
-    result = 1
-    alf_hex = 'abcdef'
-    for step, i in enumerate(number[::-1]):
-        if i in alf_hex:
-            result = result + alf_hex.index(i) * osn_ss ** step
+    number = str(number[::-1])
+    result = 0
+    alf_hex = ('a', 'b', 'c', 'd', 'e', 'f')
+    for i in range(len(number)):
+        if number[i] in alf_hex:
+            result += (alf_hex.index(number[i]) + 10) * osn_ss ** i
         else:
-            result = result + int(i) * osn_ss ** step
-        return result
+            result += int(number[i]) * osn_ss ** i
+    return result
+
+
+def dec2anyss(number, osn_ss):
+    alf_hex = ('a', 'b', 'c', 'd', 'e', 'f')
+    result = ''
+    while number != 0:
+        if number % osn_ss >= 10:
+            result += alf_hex[(number % osn_ss) - 10]
+        else:
+            result += str(number % osn_ss)
+        number = number // osn_ss
+    return result[::-1]
 
 
 def dec2bin(number):
@@ -53,10 +53,10 @@ def hex2dec(number):
 
 
 if __name__ == '__main__':
-    print(dec2bin(22))
-    print(dec2oct(22))
-    print(dec2hex(22))
-    print(bin2dec(10011))
-    print(oct2dec(75))
-    print(hex2dec('af'))
+    print(dec2bin(250))
+    # print(dec2oct(22))
+    # print(dec2hex(22))
+    print(bin2dec('1010011010'))
+    print(oct2dec('755'))
+    print(hex2dec('abcdef'))
 
