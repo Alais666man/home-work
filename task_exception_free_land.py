@@ -9,7 +9,7 @@ def get_free_land(a, b):
         return a[0] * 100 % (b[0] * b[1])
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # print(get_free_land((100, '1:1'), (15, 25)))
     # print(get_free_land((0, '1:1'), (15, 25)))
     # print(get_free_land((100, '1:1'), (5, 0)))
