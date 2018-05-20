@@ -7,7 +7,7 @@ def http_headers_to_json(headers_path, results_path):               # Считы
 
         dic_head = {}
 
-        if head[0].startswith('HTTP/1.0') or head[0].startswith('HTTP/1.1'):
+        if head[0].startswith('HTTP/1'):
             dic_head['protocol'] = head[0]
             dic_head['status_code'] = head[1]                       # Если заголовок начинается с HTTP/1
             dic_head['status_message'] = head[2]
