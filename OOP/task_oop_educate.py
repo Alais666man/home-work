@@ -34,7 +34,7 @@ class Teachers(Kurs):
         pass
 
     @classmethod
-    def add_teacher(self, fullname, lesson):
+    def add_teacher(cls, fullname, lesson):
         pass
 
 
@@ -46,11 +46,11 @@ class Lessons(Kurs):
 
 class students(Lessons):
     @classmethod
-    def add_student(self):
+    def add_student(cls):
         pass
 
     @classmethod
-    def del_student(self):
+    def del_student(cls):
         pass
 
 

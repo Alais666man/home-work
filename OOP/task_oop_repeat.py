@@ -45,35 +45,36 @@ class TextParamHandler(ParamHandler):
     def read(self):
         """Чтение из текстового файла"""
         with open('file_name') as f:
-            f.read()
+            self.params = f.read()
 
     def write(self):
         """Запись в текстовый файл"""
         with open('text_test.txt' 'w') as f:
-            f.write()
+            f.write(self.params).split(':')
 
 
 class JsonParamHandler(ParamHandler):
     def read(self):
         """Чтение из json файла и присвоение значений в self.params"""
         with open('') as f:
-            self.params = json.load()
+            json.load(self.params)
 
     def write(self):
         """Запись в текстовый файл параметров self.params"""
         with open('', 'w') as f:
-            json.dump()
-#
-#
-# class PickleParamHandler(ParamHandler):
-#     def read(self):
-#         """Чтение в формате Pickle и присвоение значений в self.params"""
-#         with open('') as f:
-#             self.params = f.read()
-#
-#     def write(self):
-#         """Запись в формате XML параметров self.params"""
-#         with open('', 'w') as f:
+            json.dump(self.params)
+
+
+class PickleParamHandler(ParamHandler):
+    def read(self):
+        """Чтение в формате Pickle и присвоение значений в self.params"""
+        with open('') as f:
+           pickle.load(self.params)
+
+    def write(self):
+        """Запись в формате Pickle параметров self.params"""
+        with open('', 'w') as f:
+            pickle.dump(self.params)
 
 
  class ParamHandler(metaclass=ABCMeta):
@@ -103,12 +104,13 @@ class JsonParamHandler(ParamHandler):
 
 
  # config = ParamHandler.get_instance('./params.xml')
- # config.add_param('key1', 'val1')
- # config.add_param('key2', 'val2')
- # config.add_param('key3', 'val3')
- # config.write()  # запись файла в XML формате
- # config = ParamHandler.get_instance('./params.txt')
- # config.read()  # читаем данные из текстового файла
+
 
  if __name__ == '__main__':
      config = ParamHandler.get_instance('./params.json')
+     config.add_param('key1', 'val1')
+     config.add_param('key2', 'val2')
+     config.add_param('key3', 'val3')
+     config.write()  # запись файла в XML формате
+     config = ParamHandler.get_instance('./params.txt')
+     config.read()  # читаем данные из текстового файла
