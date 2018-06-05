@@ -2,14 +2,15 @@ def camel_to_snake(name):
     a = list(name)                                        
     for c in range(len(a)):                                    
         if a[c].isupper() and c != 0 and a[c-1] != '_':                  
-            a.insert(c,'_')                               
+            a.insert(c, '_')
             c += 1                                        
-            return ''.join(a).lower()                             
+            return ''.join(a).lower()
+
 
 def snake_to_camel(name):
     if name.lower():
         name = name.title()
-        name = name.replace('_','')
+        name = name.replace('_', '')
         return name 
    
 
