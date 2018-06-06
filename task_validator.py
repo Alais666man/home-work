@@ -1,15 +1,13 @@
 from abc import ABCMeta, abstractmethod
-from datetime import datetime
-
 import re
 
 
 class Validator(metaclass=ABCMeta):
-    def __init__(self, value):
+    def init(self, value):
         self.value = value
 
     @abstractmethod
-    def validate(self):
+    def validate(self, value):
         pass
 
     value = {}
@@ -24,28 +22,29 @@ class Validator(metaclass=ABCMeta):
         cls.value[name] = klass
 
     @classmethod
-    def get_instance(cls, name):
-        Validator.get_instance(name)
-        if not name:
+    def get_instance(cls, name, *args, **kwargs):
+        klass = cls.value.get(name)
+        if klass is None:
             raise ValidatorException('Validator with name "{}" not found'.format(name))
-        return
+        return klass(*args, **kwargs)
 
 
 class ValidatorException(Exception):
-    """Класс исключения Validator'a"""
+    def init(self, ext):
+        pass
 
 
 def new_value(name):
     def decorator(cls):
-        Validator.add_type(cls, name)
+        Validator.add_type(name, cls)
         return cls
     return decorator
 
 
 @new_value('email')
 class EmailValidator(Validator):
-    def validate(self):
-        if re.search("[@]", self.value) is None:
+    def validate(self, value):
+        if re.search("[@]", value) is None:
             return False
         else:
             return True
@@ -53,12 +52,8 @@ class EmailValidator(Validator):
 
 @new_value('datetime')
 class DateTimeValidator(Validator):
-    def validate(self):
-        if datetime != datetime.strptime('value', '%Y-%M-%D').strptime('value', '%Y-%M-%D %H:%M')\
-                .strptime('value', '%Y-%M-%D %H:%M:%S').strptime('value', '%D.%M.%Y')\
-                .strptime('value', '%D.%M.%Y %H:%M').strptime('value', '%D.%M.%Y %H:%M:%S')\
-                .strptime('value', '%D/%M/%Y').strptime('value', '%D/%M/%Y %H:%M')\
-                .strptime('value', '%D/%M/%Y %H:%M:%S'):
+    def validate(self, value):
+        if re.search("((\d{,4}[./-]\d{,2}[./-]\d{,4} ?\d?\d?:?\d?\d?:?\d?\d))", value) is None:
             return False
         else:
             return True
