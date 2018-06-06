@@ -9,9 +9,20 @@ class Command(metaclass=ABCMeta):
 
 
 class Menu:
-    def __init__(self, name, klass):
-        self.name = name
-        self.klass = klass
+    def __init__(self):
+        self.tasks = {}
+        self.tasks_count = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.tasks_count >= len(list(self.tasks.items())):
+            raise StopIteration
+
+        command = list(self.tasks.items())[self.tasks_count]
+        self.tasks_count += 1
+        return command
 
     @classmethod
     def add_command(cls, name, klass):
@@ -20,15 +31,16 @@ class Menu:
         if not issubclass(klass, Command):
             raise CommandException('Class "{}" is not Command!'.format(klass))
 
-    @classmethod
-    def execute(cls, name, *args, **kwargs):
-        if name not in Menu:
+    def execute(self, name, *args, **kwargs):
+        command = self.tasks.get(name)
+        if command not in Menu:
             raise CommandException('Command with name "{}" not found'.format(name))
+        else:
+            command.execute(args, kwargs)
 
-    def __iter__(self):
-        pass
 
-    def __next__(self):
+class CommandException(Exception):
+    def __init__(self, *args, **kwargs):
         pass
 
 
@@ -36,92 +48,53 @@ class ActionAdd(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Добавляем задачу"""
-        task_name = input('\nВведите имя задачи: ')
-        task_description = input('\nВведите текст задачи: ')
-        task_status = 'В процессе'
-        with get_connection() as conn:
-            name = storage.add_name(conn, task_name, task_description, task_status)
-        action_find_all()
-        main()
+    def execute(self, *args, **kwargs):
+        pass
 
 
 class ActionFind(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Вывести все задачи"""
-        with get_connection() as conn:
-            tasks = storage.find_all(conn)
-
-            template = '{task[id]}/ {task[task_name]} => {task[task_description]} | {task[task_status]} | {task[created]} |'
-            for task in tasks:
-                print(template.format(task=task))
-        main()
+    def execute(self, *args, **kwargs):
+        pass
 
 
 class ActionDel(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Удалить задачу"""
-        id = input('\nВведите id задачи для удаления: ')
-        with get_connection() as conn:
-            delete = storage.delete_task(conn, id)
-        action_find_all()
-        main()
+    def execute(self, *args, **kwargs):
+        pass
 
 
 class ActionStatusEnd(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Изменить статус на завершена"""
-        id = input('\nВведите id задачи: ')
-        # task_status = 'Завершена'
-        with get_connection() as conn:
-            status = storage.change_status_end(conn, id)
-        action_find_all()
-        main()
+    def execute(self, *args, **kwargs):
+        pass
 
 
 class ActionStatusBegin(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Изменить статус на в процессе"""
-        id = input('\nВведите id задачи: ')
-        # task_status = 'Завершена'
-        with get_connection() as conn:
-            status = storage.change_status_begin(conn, id)
-        action_find_all()
-        main()
+    def execute(self, *args, **kwargs):
+        pass
 
 
 class ActionChange(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Отредактировать задачу"""
-        id = input('\nВведите id задачи: ')
-        task_name = input('\nВведите имя задачи: ')
-        task_description = input('\nВведите текст задачи: ')
-        with get_connection() as conn:
-            task = storage.change_task(conn, task_name, task_description, id)
-        action_find_all()
-        main()
+    def execute(self, *args, **kwargs):
+        pass
 
 
 class ActionExit(Command):
     def __init__(self, *args, **kwargs):
         pass
 
-    def execute(self):
-        """Выйти"""
-        sys.exit(0)
+    def execute(self, *args, **kwargs):
+        pass
