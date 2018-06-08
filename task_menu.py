@@ -8,7 +8,7 @@ class Command(metaclass=ABCMeta):
         pass
 
 
-class Menu:
+class Menu(metaclass=ABCMeta):
     def __init__(self):
         self.tasks = {}
         self.tasks_count = 0
@@ -19,82 +19,32 @@ class Menu:
     def __next__(self):
         if self.tasks_count >= len(list(self.tasks.items())):
             raise StopIteration
+        else:
+            command = list(self.tasks.items())[self.tasks_count]
+            self.tasks_count += 1
+            return command
 
-        command = list(self.tasks.items())[self.tasks_count]
-        self.tasks_count += 1
-        return command
-
-    @classmethod
-    def add_command(cls, name, klass):
+    def add_command(self, name, klass):
         if not name:
             raise CommandException('Command must have a name!')
         if not issubclass(klass, Command):
             raise CommandException('Class "{}" is not Command!'.format(klass))
+        self.tasks[name] = klass
 
     def execute(self, name, *args, **kwargs):
-        command = self.tasks.get(name)
-        if command not in Menu:
+        if name not in self.tasks:
             raise CommandException('Command with name "{}" not found'.format(name))
-        else:
-            command.execute(args, kwargs)
+        klass = self.tasks.get(name)
+        return klass(*args, **kwargs).execute()
 
 
 class CommandException(Exception):
-    def __init__(self, *args, **kwargs):
         pass
-
 
 class ActionAdd(Command):
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def execute(self, *args, **kwargs):
-        pass
+    pass
 
 
 class ActionFind(Command):
-    def __init__(self, *args, **kwargs):
-        pass
+    pass
 
-    def execute(self, *args, **kwargs):
-        pass
-
-
-class ActionDel(Command):
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def execute(self, *args, **kwargs):
-        pass
-
-
-class ActionStatusEnd(Command):
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def execute(self, *args, **kwargs):
-        pass
-
-
-class ActionStatusBegin(Command):
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def execute(self, *args, **kwargs):
-        pass
-
-
-class ActionChange(Command):
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def execute(self, *args, **kwargs):
-        pass
-
-
-class ActionExit(Command):
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def execute(self, *args, **kwargs):
-        pass
