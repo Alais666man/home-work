@@ -1,82 +1,221 @@
 class Node:
     def __init__(self, value=None, next=None):
+
         self.value = value
         self.next = next
+
+    def get_value(self):
+        return self.value
+
+    def get_next(self):
+        return self.next
+
+    def set_value(self, new_value):
+        self.value = new_value
+
+    def set_next(self, new_next):
+        self.next = new_next
 
 class LinkedList:
     def __init__(self, *args):
         self.head = None
         self.last = None
         self.len = 0
+        self.count = -1
         for i in args:
             self.add(i)
 
     def __str__(self):
-        linkedList = 'LinkedList '
-        node = self.head
-        if self.head is None:
-            return 'Linked list is empty'
-        for i in range(self.len):
-            if node == self.last:
-                linkedList += (str(node.value))
-            else:
-                linkedList += (str(node.value) + ', ')
-            cell = node.next
-        return linkedList
+        if self.head != None:
+            item = self.head
+            res = 'LinkedList(' + str(item.value) + ', '
+            while item.next != None:
+                item = item.next
+                res += str(item.value) + ', '
+            return res.rstrip(', ') + ')'
+        return 'LinkedList()'
+
 
     def add(self, value):
-        self.len += 1
         if self.head is None:
-            self.last = self.head = Node(value, None)
+            self.head = Node(value)
+            self.last = self.head
+            self.len = 1
+            return self
         else:
-            self.last.next = self.last = Node(value, None)
+            self.last.next = self.last = Node(value)
+            self.len += 1
+            return self
+
+    def len(self):
+        return self.len
 
     def insert(self, index, value):
-        if index == 0:
+        if index >= self.len:
+            return self.add(value)
+        elif index == 0:
             self.len += 1
             if self.head is None:
                 self.head = Node(value, None)
                 self.last = self.head
             else:
                 self.head = Node(value, self.head)
-                return
-
-        # if index >= self.len:
-        #     self.add(value)
-        # else:
-        #     count = 0
-        #     node = self.head
-        #     while node is not None:
-        #         count += 1
-        #         if count == index:
-        #             node.next = Node(value, node.next)
-        #             self.len += 1
-        #             if node.next.next is None:
-        #                 self.last = node.next
-        #                 self.len += 1
-        #             break
-        #         node = node.next
+            return self
+        else:
+            count = 0
+            values = self.head
+            while values is not None:
+                count += 1
+                if count == index:
+                    values.next = Node(value, values.next)
+                    self.len += 1
+                    if values.next.next is None:
+                        self.last = values.next
+                        self.len += 1
+                    break
+                values = values.next
+            return self
 
     def get(self, index):
         if index >= self.len:
             raise IndexError
 
-        count = -1
-        node = self.head
-        while node is not None:
-            count += 1
-            if count == index:
-                return node.value
-            node = node.next
-    # def len(self):
-    #     return self.len
+        item = self.head
+        for i in range(0, self.len):
+            if i == index:
+                return item.value
+            item = item.next
 
+    def remove(self, value):
+        current = self.head
+        previous = None
+        found = False
+        while current and found is False:
+            if current.get_value() == value:
+                found = True
+            else:
+                previous = current
+                current = current.get_next()
+            if previous is None:
+                self.head = current.get_next()
+            else:
+                previous.set_next(current.get_next())
+        return self
+
+    def remove_at(self, index):
+        if index >= self.len:
+            raise IndexError
+        item = self.head
+        if index == 0:
+            self.len -= 1
+            temp = self.head.value
+            self.head = item.next
+            return temp
+
+        for i in range(1, self.len):
+            if i == index:
+                temp = item.next.value
+                item.next = item.next.next
+                self.len -= 1
+                return temp
+            item = item.next
+
+    def is_empty(self):
+        if self.len != 0:
+            return False
+        else:
+            return True
+
+    def clear(self):
+        self.__init__()
+
+    def contains(self, value):
+        item = self.head
+        while item is not None:
+            if item.value == value:
+                return True
+            item = item.next
+        return False
+    #
+    # def __iter__(self):
+    #     return self
+    #
+    # def __next__(self):
+    #     while self is not None:
+    #         yield self
+    #         list_item = list_item.next
+    #
+    # def iterate_from():
+    #     while list_item is not None:
+    #         yield list_item
+    #         list_item = list_item.next
 
 
 if __name__ == '__main__':
-    ll = LinkedList(1, 2, 3, 4, 5)
 
-    print(ll)
+    ll = LinkedList(1, 3, 1, 3, 1, 2, 3, 2)
+    # print(ll)
+    # # print(ll.add(4))
+    # # print(ll.add(5))
+    # print(ll.len)
+    # # print(ll.insert(10, 100))
+    # # print(ll.insert(0, 50))
+    # # print(ll.insert(4, 50))
+    # # print(ll.get(2))
+    # # print(ll.remove(1))
+    # # print(ll.clear())
+    # print(ll)
+    # print(ll.contains(4))
+    # # # print(ll.remove_at(12))
+    print(ll.is_empty())
+    # for item in ll:
+    #     print(item)
+
+
+
+
+
+
+
+    # def insert(self, index, value):
+    #     if index == 0:
+    #         self.len += 1
+    #         if self.head is None:
+    #             self.head = Node(value, None)
+    #             self.last = self.head
+    #         else:
+    #             self.head = Node(value, self.head)
+    #             return self.head
+    #
+    #     if index >= self.len:
+    #         self.add(value)
+    #     else:
+    #         count = 0
+    #         node = self.head
+    #         while node is not None:
+    #             count += 1
+    #             if count == index:
+    #                 node.next = Node(value, node.next)
+    #                 self.len += 1
+    #                 if node.next.next is None:
+    #                     self.last = node.next
+    #                     self.len += 1
+    #                 break
+    #             node = node.next
+
+    # def get(self, index):
+    #     if index >= self.len:
+    #         raise IndexError
+    #
+    #     count = -1
+    #     node = self.head
+    #     while node is not None:
+    #         count += 1
+    #         if count == index:
+    #             return node.value
+    #         node = node.next
+    # def len(self):
+    #     return self.len
 
 
     # class Node:
@@ -350,3 +489,15 @@ if __name__ == '__main__':
     # self.tail = value
 
 
+ # def __str__(self):
+    #     linkedlist = 'LinkedList '
+    #     node = self.head
+    #     if self.head is None:
+    #         return 'Linked list is empty'
+    #     for i in range(self.len):
+    #         if node == self.last:
+    #             linkedlist += (str(node.value))
+    #         else:
+    #             linkedlist += str(node.value) + ', '
+    #         node = node.next
+    #     return linkedlist
