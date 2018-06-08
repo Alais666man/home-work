@@ -26,10 +26,10 @@ class LinkedList:
             self.add(i)
 
     def __str__(self):
-        if self.head != None:
+        if self.head is not None:
             item = self.head
             res = 'LinkedList(' + str(item.value) + ', '
-            while item.next != None:
+            while item.next is not None:
                 item = item.next
                 res += str(item.value) + ', '
             return res.rstrip(', ') + ')'
@@ -136,38 +136,36 @@ class LinkedList:
                 return True
             item = item.next
         return False
-    #
-    # def __iter__(self):
-    #     return self
-    #
-    # def __next__(self):
-    #     while self is not None:
-    #         yield self
-    #         list_item = list_item.next
-    #
-    # def iterate_from():
-    #     while list_item is not None:
-    #         yield list_item
-    #         list_item = list_item.next
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.count += 1
+        if self.count < self.len:
+
+            return self.get(self.count)
+        else:
+            raise StopIteration
 
 
 if __name__ == '__main__':
 
     ll = LinkedList(1, 3, 1, 3, 1, 2, 3, 2)
-    # print(ll)
-    # # print(ll.add(4))
-    # # print(ll.add(5))
-    # print(ll.len)
-    # # print(ll.insert(10, 100))
-    # # print(ll.insert(0, 50))
-    # # print(ll.insert(4, 50))
-    # # print(ll.get(2))
-    # # print(ll.remove(1))
-    # # print(ll.clear())
-    # print(ll)
-    # print(ll.contains(4))
-    # # # print(ll.remove_at(12))
-    print(ll.is_empty())
+    print(ll)
+    print(ll.add(4))
+    print(ll.add(5))
+    print(ll.len)
+    print(ll.insert(11, 100))
+    print(ll.insert(0, 50))
+    print(ll.insert(4, 50))
+    print(ll.get(2))
+    print(ll.remove(1))
+    print(ll.remove_at(12))
+    # print(ll.clear())
+    print(ll)
+    print(ll.contains(4))
+    # print(ll.is_empty())
     # for item in ll:
     #     print(item)
 
