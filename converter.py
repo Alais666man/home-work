@@ -68,9 +68,13 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(w)
 
+    # Работа в обе стороны и отключение кнопки
     def onClickConvertBtn(self):
         rub = self.rubAmountEdit.value()
         usd = self.usdAmountEdit.value()
+        if (rub == 0 and usd == 0) or (rub != 0 and usd != 0):
+            self.convertBtn.setEnabled(False)
+
         if rub:
             self.usdAmountEdit.setValue(rub / Course().get())
 
