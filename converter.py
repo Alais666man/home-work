@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
         # self.convertBtn.setAutoDefault(True)
         self.eraseBtn = QPushButton('Отчистить', self)
 
-    def initAction(self):
+    def _initAction(self):
         initAction = QAction(self)
         initAction.setShortcut('Return')
         initAction.triggered.connect(self.convertBtn)
@@ -72,14 +72,14 @@ class MainWindow(QMainWindow):
     def onClickConvertBtn(self):
         rub = self.rubAmountEdit.value()
         usd = self.usdAmountEdit.value()
-        if (rub == 0 and usd == 0) or (rub != 0 and usd != 0):
+        if (rub and usd) or (rub and usd):
             self.convertBtn.setEnabled(False)
             self.convertBtn.setEnabled(True)
 
-        if rub != 0 and usd == 0:
+        if rub and not usd:
             self.usdAmountEdit.setValue(rub / Course().get())
 
-        elif usd != 0 and rub == 0:
+        elif usd and not rub:
             self.rubAmountEdit.setValue(usd * Course().get())
 
     # def returnPressed(self, event):
