@@ -72,13 +72,14 @@ class MainWindow(QMainWindow):
     def onClickConvertBtn(self):
         rub = self.rubAmountEdit.value()
         usd = self.usdAmountEdit.value()
-        if (rub == 0 and usd == 0) or (rub != 0 and usd != 0):
+        if (rub == 0 and usd == 0) or (rub != 0 and usd !=0):
             self.convertBtn.setEnabled(False)
+            self.convertBtn.setEnabled(True)
 
-        if rub:
+        if rub != 0 and usd == 0:
             self.usdAmountEdit.setValue(rub / Course().get())
 
-        elif usd:
+        elif usd != 0 and rub == 0:
             self.rubAmountEdit.setValue(usd * Course().get())
 
     # def returnPressed(self, event):
